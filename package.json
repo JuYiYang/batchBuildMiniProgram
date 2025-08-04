@@ -1,0 +1,16 @@
+{
+  "name": "batch-build-mini-program",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "基于 HBuilderX 和 miniprogram-ci 的 Node.js 脚本，实现 uni-app 微信小程序的批量打包与自动上传",
+  "main": "main.js",
+  "scripts": {
+    "build": "node main.js"
+  },
+  "author": "mebius",
+  "license": "MIT",
+  "dependencies": {
+    "miniprogram-ci": "^2.1.18",
+    "strip-json-comments": "^5.0.2"
+  }
+}

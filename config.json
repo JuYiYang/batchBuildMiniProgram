@@ -1,0 +1,14 @@
+{
+  "projectPath": "",
+  "cliPath": "",
+  "hostConfigPath": "",
+  "version": "",
+  "description": "",
+  "apps": [
+    {
+      "appid": "",
+      "host": "",
+      "privateKeyPath": ""
+    }
+  ]
+}
