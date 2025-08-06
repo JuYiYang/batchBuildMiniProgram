@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import stripJsonComments from "strip-json-comments";
 import { execFileSync } from "child_process";
-import { fileURLToPath } from "url";
 import configJson from "./config.json" assert { type: "json" };
 
 const { apps, cliPath, hostConfigPath, projectPath, version, description } =
@@ -11,6 +10,8 @@ const { apps, cliPath, hostConfigPath, projectPath, version, description } =
 const manifestPath = path.join(projectPath, "manifest.json");
 
 (async () => {
+  const originalManifestContent = fs.readFileSync(manifestPath, "utf-8");
+  const originalHostConfigContent = fs.readFileSync(hostConfigPath, "utf-8");
   for (const item of apps) {
     console.log(`=== 开始打包：appid=${item.appid} ===`);
     const raw = fs.readFileSync(manifestPath, "utf-8");
@@ -21,7 +22,7 @@ const manifestPath = path.join(projectPath, "manifest.json");
     // 更新 host 配置
     let configContent = fs.readFileSync(hostConfigPath, "utf-8");
     configContent = configContent.replace(
-      /host:\s*['"].*?['"]/,
+      /host:\s*[^,]+/,
       `host: '${item.host}'`
     );
     fs.writeFileSync(hostConfigPath, configContent, "utf-8");
@@ -54,5 +55,7 @@ const manifestPath = path.join(projectPath, "manifest.json");
       console.error(err.stderr?.toString() || err.message);
       continue;
     }
+    fs.writeFileSync(manifestPath, originalManifestContent, "utf-8");
+    fs.writeFileSync(hostConfigPath, originalHostConfigContent, "utf-8");
   }
 })();
